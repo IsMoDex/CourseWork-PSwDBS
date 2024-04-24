@@ -1,0 +1,61 @@
+﻿<Page x:Class="CourseWork_PSwDBS_Pankov.OperationPages.TablePages.dataOP_transportation_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CourseWork_PSwDBS_Pankov.OperationPages.TablePages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="dataOP_transportation_Page">
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Груз:"/>
+        <ComboBox x:Name="Cargo_ComboBox" Grid.Row="1"/>
+
+        <Label Grid.Row="2" Content="Количество грузов:"/>
+        <TextBox x:Name="CountCargo_TextBox" Grid.Row="3"/>
+
+        <Label Grid.Row="4" Content="Город отбытия:"/>
+        <ComboBox x:Name="StartCity_ComboBox" Grid.Row="5"/>
+
+        <Label Grid.Row="6" Content="Город прибытия:"/>
+        <ComboBox x:Name="EndCity_ComboBox" Grid.Row="7"/>
+
+        <Label Grid.Row="8" Content="Дата выезда:"/>
+        <DatePicker x:Name="StartDate_DatePicker" Grid.Row="9" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        
+        <Label Grid.Row="10" Content="Дата прибытия:"/>
+        <DatePicker x:Name="EndDate_DatePicker" Grid.Row="11" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+
+        <Label Grid.Row="12" Content="Стоимость перевокзи:"/>
+        <TextBox x:Name="CostTransportation_TextBox" Grid.Row="13"/>
+
+        <Label Grid.Row="14" Content="Перевозящий автомобиль:"/>
+        <ComboBox x:Name="Car_ComboBox" Grid.Row="15"/>
+
+        <Label Grid.Row="16" Content="Водитель:"/>
+        <ComboBox x:Name="Driver_ComboBox" Grid.Row="17"/>
+
+    </Grid>
+</Page>
