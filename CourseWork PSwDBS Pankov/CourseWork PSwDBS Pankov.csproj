@@ -198,11 +198,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OperationPages\RequestPages\request_car_brands_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OperationPages\RequestPages\request_cities_Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OperationPages\RequestPages\request_drivers_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OperationPages\RequestPages\request_record_cargo_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OperationPages\RequestPages\request_record_car_brands_Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -274,11 +286,20 @@
     <Compile Include="OperationPages\RequestPages\request_cargo_Page.xaml.cs">
       <DependentUpon>request_cargo_Page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OperationPages\RequestPages\request_car_brands_Page.xaml.cs">
+      <DependentUpon>request_car_brands_Page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OperationPages\RequestPages\request_cities_Page.xaml.cs">
       <DependentUpon>request_cities_Page.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OperationPages\RequestPages\request_drivers_Page.xaml.cs">
+      <DependentUpon>request_drivers_Page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OperationPages\RequestPages\request_record_cargo_Page.xaml.cs">
       <DependentUpon>request_record_cargo_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OperationPages\RequestPages\request_record_car_brands_Page.xaml.cs">
+      <DependentUpon>request_record_car_brands_Page.xaml</DependentUpon>
     </Compile>
     <Compile Include="OperationPages\RequestPages\request_record_cities_Page.xaml.cs">
       <DependentUpon>request_record_cities_Page.xaml</DependentUpon>

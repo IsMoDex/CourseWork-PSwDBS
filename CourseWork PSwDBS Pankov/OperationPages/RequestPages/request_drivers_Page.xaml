@@ -1,0 +1,57 @@
+﻿<Page x:Class="CourseWork_PSwDBS_Pankov.OperationPages.RequestPages.request_drivers_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CourseWork_PSwDBS_Pankov.OperationPages.RequestPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" Width="Auto" Height="Auto"
+      Title="request_drivers_Page">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" FontSize="14" HorizontalAlignment="Center">
+                Количество водителей, имеющих
+                <LineBreak/>
+                зарплату выше заданного уровня
+            </TextBlock>
+
+            <Label Grid.Column="0" Grid.Row="1" Content="Максимальная зарплата" FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Center" />
+            <Label Grid.Column="1" Grid.Row="1" Content="Минимальное количество" FontSize="14" VerticalContentAlignment="Center" HorizontalAlignment="Center"  />
+
+            <TextBox Grid.Column="0" Grid.Row="2" x:Name="MaxSalary_TextBox" TextChanged="TextBox_TextChanged"/>
+            <TextBox Grid.Column="1" Grid.Row="2" x:Name="MinCount_TextBox" TextChanged="TextBox_TextChanged"/>
+
+            <Frame Grid.Row="3" Grid.ColumnSpan="2" MinHeight="125" Height="Auto" VerticalAlignment="Stretch" x:Name="DriverCategoryCount_Frame" Margin="0,5,0,0"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" FontSize="14" HorizontalAlignment="Center">
+                Водители чья заработная плата превышает
+                <LineBreak/>
+                среднюю заработную плату всех водителей
+            </TextBlock>
+
+            <Frame Grid.Row="1" MinHeight="125" Height="Auto" VerticalAlignment="Stretch" x:Name="HighEarningDrivers_Frame" Margin="0,5,0,0"/>
+        </Grid>
+    </Grid>
+</Page>

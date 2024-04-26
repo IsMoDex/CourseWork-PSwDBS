@@ -306,7 +306,10 @@ namespace CourseWork_PSwDBS_Pankov
                     break;
 
                 case "drivers":
-                    contextPage = null;
+                    if (ID == -1)
+                        contextPage = new request_drivers_Page();
+                    else
+                        contextPage = null;
                     break;
 
                 case "cargo":
@@ -317,7 +320,10 @@ namespace CourseWork_PSwDBS_Pankov
                     break;
 
                 case "car_brands":
-                    contextPage = null;
+                    if (ID == -1)
+                        contextPage = new request_car_brands_Page();
+                    else
+                        contextPage = new request_record_car_brands_Page(ID);
                     break;
 
                 case "cars":
