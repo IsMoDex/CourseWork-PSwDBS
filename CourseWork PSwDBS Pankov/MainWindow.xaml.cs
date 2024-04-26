@@ -6,9 +6,11 @@ using CourseWork_PSwDBS_Pankov.OperationPages.TablePages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Npgsql;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Contexts;
@@ -270,6 +272,86 @@ namespace CourseWork_PSwDBS_Pankov
             }
         }
 
+        private void LoadRequestPage(long ID = -1)
+        {
+            Page contextPage = null;
+
+            switch (SelectedTable)
+            {
+                case "cities":
+                    if (ID == -1)
+                        contextPage = new request_cities_Page();
+                    else
+                        contextPage = new request_record_cities_Page(ID);
+                    break;
+
+                case "urban_areas":
+                    contextPage = null;
+                    break;
+
+                case "types_of_ownership":
+                    contextPage = null;
+                    break;
+
+                case "atc":
+                    contextPage = null;
+                    break;
+
+                case "users":
+                    contextPage = null;
+                    break;
+
+                case "driving_categories":
+                    contextPage = null;
+                    break;
+
+                case "drivers":
+                    contextPage = null;
+                    break;
+
+                case "cargo":
+                    if (ID == -1)
+                        contextPage = new request_cargo_Page();
+                    else
+                        contextPage = new request_record_cargo_Page(ID);
+                    break;
+
+                case "car_brands":
+                    contextPage = null;
+                    break;
+
+                case "cars":
+                    contextPage = null;
+                    break;
+
+                case "transportation":
+                    contextPage = new request_transportation_Page();
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (contextPage == null)
+            {
+                while (RequestFrame.CanGoBack)
+                    RequestFrame.GoBack();
+
+                RequestFrame.Navigate(null);
+
+                return;
+            }
+
+            var reqPage = contextPage as IRequestPage;
+
+            if (reqPage == null)
+                throw new ArgumentException("Переданная страница не относится к IRequestPage!");
+
+            reqPage.LoadData();
+
+            RequestFrame.Navigate(contextPage);
+        }
+
         private void SearchDataByColumnButton_Click(object sender, RoutedEventArgs e)
         {
             var nameColumn = SelectedColumn.Content.ToString();
@@ -360,84 +442,29 @@ namespace CourseWork_PSwDBS_Pankov
             if(Generator.GeneratorFrom.isOpen == false) new GeneratorFrom().Show();
         }
 
-        private void LoadRequestPage(long ID = -1)
+        private void SaveTheReport_Button_Click(object sender, RoutedEventArgs e)
         {
-            Page contextPage = null;
-
-            switch (SelectedTable)
+            // Создание нового Excel-файла
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage package = new ExcelPackage())
             {
-                case "cities":
-                    if(ID == -1)
-                        contextPage = new request_cities_Page();
-                    else
-                        contextPage = new request_record_cities_Page(ID);
-                    break;
+                // Добавление листа в Excel-файл
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Employee Data");
 
-                case "urban_areas":
-                    contextPage = null;
-                    break;
+                var dt = DbContext.GetDataTableBySQL("SELECT * FROM drivers");
+                // Заполнение данных из запроса в Excel-файл
+                worksheet.Cells["A1"].LoadFromDataTable(dt, true);
 
-                case "types_of_ownership":
-                    contextPage = null;
-                    break;
+                // Добавление диаграммы на лист
+                var chart = worksheet.Drawings.AddChart("Chart", OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
+                chart.SetPosition(1, 0, 4, 0);
+                chart.SetSize(600, 400);
+                chart.Series.Add(worksheet.Cells["B2:B5"], worksheet.Cells["A2:A5"]);
 
-                case "atc":
-                    contextPage = null;
-                    break;
-
-                case "users":
-                    contextPage = null;
-                    break;
-
-                case "driving_categories":
-                    contextPage = null;
-                    break;
-
-                case "drivers":
-                    contextPage = null;
-                    break;
-
-                case "cargo":
-                    if (ID == -1)
-                        contextPage = new request_cargo_Page();
-                    else
-                        contextPage = new request_record_cargo_Page(ID);
-                    break;
-
-                case "car_brands":
-                    contextPage = null;
-                    break;
-
-                case "cars":
-                    contextPage = null;
-                    break;
-
-                case "transportation":
-                    contextPage = new request_transportation_Page();
-                    break;
-
-                default:
-                    return;
+                // Сохранение Excel-файла
+                FileInfo excelFile = new FileInfo("EmployeeData.xlsx");
+                package.SaveAs(excelFile);
             }
-
-            if (contextPage == null)
-            {
-                while (RequestFrame.CanGoBack)
-                    RequestFrame.GoBack();
-
-                RequestFrame.Navigate(null);
-
-                return;
-            }
-
-            var reqPage = contextPage as IRequestPage;
-
-            if (reqPage == null)
-                throw new ArgumentException("Переданная страница не относится к IRequestPage!");
-
-            reqPage.LoadData();
-
-            RequestFrame.Navigate(contextPage);
         }
     }
 }
