@@ -198,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OperationPages\RequestPages\request_cars_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OperationPages\RequestPages\request_car_brands_Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -285,6 +289,9 @@
     </Compile>
     <Compile Include="OperationPages\RequestPages\request_cargo_Page.xaml.cs">
       <DependentUpon>request_cargo_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OperationPages\RequestPages\request_cars_Page.xaml.cs">
+      <DependentUpon>request_cars_Page.xaml</DependentUpon>
     </Compile>
     <Compile Include="OperationPages\RequestPages\request_car_brands_Page.xaml.cs">
       <DependentUpon>request_car_brands_Page.xaml</DependentUpon>

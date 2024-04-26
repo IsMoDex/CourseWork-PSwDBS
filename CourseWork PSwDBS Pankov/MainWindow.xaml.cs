@@ -327,7 +327,10 @@ namespace CourseWork_PSwDBS_Pankov
                     break;
 
                 case "cars":
-                    contextPage = null;
+                    if (ID == -1)
+                        contextPage = new request_cars_Page();
+                    else
+                        contextPage = null;
                     break;
 
                 case "transportation":
