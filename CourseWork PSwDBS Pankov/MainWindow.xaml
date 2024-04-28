@@ -26,8 +26,7 @@
             <ComboBox x:Name="AvailableTablesComboBox" DockPanel.Dock="Left" Text="Выбирите таблицу" Margin="0,0,5,0" SelectionChanged="AvailableTablesComboBox_SelectionChanged"/>
 
             <Button x:Name="OpenGenerator_Button" Visibility="Collapsed" DockPanel.Dock="Left" Content="Генератор" Margin="0 0 5 0" Click="OpenGenerator_Button_Click"/>
-            <Button x:Name="SaveTheReport_Button" DockPanel.Dock="Left" Content="Сохранить в Excel" Margin="0 0 5 0" Click="SaveTheReport_Button_Click"/>
-            <Button DockPanel.Dock="Left" Content="Элемент 3" Margin="0 0 5 0"/>
+            <Button x:Name="SaveTheReport_Button" Visibility="Collapsed" DockPanel.Dock="Left" Content="Отчет в Excel" Margin="0 0 5 0" Click="SaveTheReport_Button_Click"/>
 
             <Label x:Name="CountRecordsLable" DockPanel.Dock="Right" d:Content="Записей: 123123" HorizontalAlignment="Right"/>
 

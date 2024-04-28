@@ -5,6 +5,7 @@ using CourseWork_PSwDBS_Pankov.OperationPages.RequestPages;
 using CourseWork_PSwDBS_Pankov.OperationPages.TablePages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Win32;
 using Npgsql;
 using OfficeOpenXml;
 using System;
@@ -196,6 +197,11 @@ namespace CourseWork_PSwDBS_Pankov
                 OpenGenerator_Button.Visibility = Visibility.Visible;
             else
                 OpenGenerator_Button.Visibility = Visibility.Collapsed;
+
+            if (DbContext.CheckRoleUser(DbContext_Npgsql.Roles.Analyst) || DbContext.CheckRoleUser(DbContext_Npgsql.Roles.OwnerATC))
+                SaveTheReport_Button.Visibility = Visibility.Visible;
+            else
+                SaveTheReport_Button.Visibility = Visibility.Collapsed;
 
             LoadTables();
         }
@@ -451,29 +457,43 @@ namespace CourseWork_PSwDBS_Pankov
             if(Generator.GeneratorFrom.isOpen == false) new GeneratorFrom().Show();
         }
 
-        private void SaveTheReport_Button_Click(object sender, RoutedEventArgs e)
+        private async void SaveTheReport_Button_Click(object sender, RoutedEventArgs e)
         {
-            // Создание нового Excel-файла
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            using (ExcelPackage package = new ExcelPackage())
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Файлы Excel (*.xlsx, *.xls)|*.xlsx;*.xls|Все файлы (*.*)|*.*";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.FileName = "Отчет"; // Начальное имя файла
+            saveFileDialog.DefaultExt = ".xlsx"; // Расширение файла по умолчанию
+
+            // Обработка результата диалога
+            if (saveFileDialog.ShowDialog() != true)
+                return;
+
+            string filePath = saveFileDialog.FileName;
+
+            await Task.Run(() =>
             {
-                // Добавление листа в Excel-файл
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Employee Data");
+                try
+                {
+                    ExcelManager excelManager = new ExcelManager();
 
-                var dt = DbContext.GetDataTableBySQL("SELECT * FROM drivers");
-                // Заполнение данных из запроса в Excel-файл
-                worksheet.Cells["A1"].LoadFromDataTable(dt, true);
+                    excelManager.AddDataAndChartByTableName("get_top_cars_with_most_deliveries()");
+                    excelManager.AddDataAndChartByTableName("get_top_drivers_with_most_deliveries_and_salaries()");
+                    excelManager.AddDataAndChartByTableName("get_top_cities_with_most_deliveries()");
 
-                // Добавление диаграммы на лист
-                var chart = worksheet.Drawings.AddChart("Chart", OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
-                chart.SetPosition(1, 0, 4, 0);
-                chart.SetSize(600, 400);
-                chart.Series.Add(worksheet.Cells["B2:B5"], worksheet.Cells["A2:A5"]);
+                    if (DbContext.CheckRoleUser(DbContext_Npgsql.Roles.Analyst))
+                        excelManager.AddDataAndChartByTableName("get_top_atcs_with_most_deliveries()");
 
-                // Сохранение Excel-файла
-                FileInfo excelFile = new FileInfo("EmployeeData.xlsx");
-                package.SaveAs(excelFile);
-            }
+                    excelManager.DocumentSaveAs(filePath); //"Document.xlsx"
+
+                    MessageBox.Show("Отчет был успешно создан!", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+            });
         }
     }
 }
