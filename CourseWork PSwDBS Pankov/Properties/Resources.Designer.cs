@@ -59,5 +59,95 @@ namespace CourseWork_PSwDBS_Pankov.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] adjectives {
+            get {
+                object obj = ResourceManager.GetObject("adjectives", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] adverbial {
+            get {
+                object obj = ResourceManager.GetObject("adverbial", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] fnames_m {
+            get {
+                object obj = ResourceManager.GetObject("fnames_m", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] fnames_w {
+            get {
+                object obj = ResourceManager.GetObject("fnames_w", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] lnames_m {
+            get {
+                object obj = ResourceManager.GetObject("lnames_m", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] lnames_w {
+            get {
+                object obj = ResourceManager.GetObject("lnames_w", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] names_m {
+            get {
+                object obj = ResourceManager.GetObject("names_m", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] names_w {
+            get {
+                object obj = ResourceManager.GetObject("names_w", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Byte[].
+        /// </summary>
+        internal static byte[] nouns {
+            get {
+                object obj = ResourceManager.GetObject("nouns", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

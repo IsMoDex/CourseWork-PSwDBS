@@ -286,7 +286,10 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
                 // Получаем значение ячейки с названием колонки "ID"
                 var idValue = selectedRow["ID"];
 
-                bySelect(Convert.ToInt64(idValue));
+                if (idValue is int || idValue is long)
+                    bySelect(Convert.ToInt64(idValue));
+                else
+                    Console.WriteLine("Выбранная запись не имеет численный формат ID!");
             }
             else
             {

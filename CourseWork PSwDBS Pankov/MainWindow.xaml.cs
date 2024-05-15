@@ -50,7 +50,7 @@ namespace CourseWork_PSwDBS_Pankov
             DbContext.User = "postgres";
             //DbContext.User = "owner1";
             //DbContext.User = "moder1";
-            DbContext.User = "anal1";
+            //DbContext.User = "anal1";
             DbContext.Password = "1234";
         }
 
@@ -153,29 +153,35 @@ namespace CourseWork_PSwDBS_Pankov
                 return;
             }
 
-            var table = DbContext.GetDataTableByTable($"count_cascading_deletions_{SelectedTable}('{ID}')");
-
-            string result = string.Empty;
-
-            string CountRecordToDelete = string.Empty;
-
-            foreach (DataRow row in table.Rows)
+            try
             {
-                string tableName = row["table_name"].ToString();
-                string countDeleted = row["count_deleted"].ToString();
+                var table = DbContext.GetDataTableByTable($"count_cascading_deletions_{SelectedTable}('{ID}')");
 
-                if (tableName == "Всего")
+                string result = string.Empty;
+
+                string CountRecordToDelete = string.Empty;
+
+                foreach (DataRow row in table.Rows)
                 {
-                    CountRecordToDelete = countDeleted;
+                    string tableName = row["table_name"].ToString();
+                    string countDeleted = row["count_deleted"].ToString();
+
+                    if (tableName == "Всего")
+                    {
+                        CountRecordToDelete = countDeleted;
+                    }
+
+                    result += $"{tableName}: {countDeleted}\r\n";
                 }
 
-                result += $"{tableName}: {countDeleted}\r\n";
-            }
-
-            if (MessageBox.Show($"Вы уверены что хоите удалить запись?\r\nБудут удалены записи в таблицах:\r\n{result}", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Вы уверены что хоите удалить запись?\r\nБудут удалены записи в таблицах:\r\n{result}", "Предупреждение", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    DbContext.SendRequest($"SELECT delete_data_{SelectedTable}('{ID}')");
+                    MessageBox.Show($"Было успешно удалено {CountRecordToDelete} записей.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            } catch(Exception ex)
             {
-                DbContext.SendRequest($"SELECT delete_data_{SelectedTable}('{ID}')");
-                MessageBox.Show($"Было успешно удалено {CountRecordToDelete} записей.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -462,7 +468,7 @@ namespace CourseWork_PSwDBS_Pankov
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Файлы Excel (*.xlsx, *.xls)|*.xlsx;*.xls|Все файлы (*.*)|*.*";
             saveFileDialog.FilterIndex = 1;
-            saveFileDialog.FileName = "Отчет"; // Начальное имя файла
+            saveFileDialog.FileName = "Общий отчет"; // Начальное имя файла
             saveFileDialog.DefaultExt = ".xlsx"; // Расширение файла по умолчанию
 
             // Обработка результата диалога

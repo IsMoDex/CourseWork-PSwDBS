@@ -5,10 +5,72 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CourseWork_PSwDBS_Pankov.OperationPages.TablePages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="550" d:DesignWidth="800"
+      Loaded="Page_Loaded"
       Title="dataOP_users_Page">
 
-    <Grid>
-        
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Content="Логин:"/>
+        <TextBox x:Name="Login_TextBox" Grid.Row="1"/>
+
+        <Label Grid.Row="2" Content="Пароль:"/>
+        <PasswordBox Grid.Row="3" x:Name="Password_TextBox"/>
+
+        <Label Grid.Row="4" Content="Роль:"/>
+        <ComboBox Grid.Row="5" x:Name="Roles_ComboBox">
+            <ComboBoxItem Tag="owner_atc" Content="Владелец АТС"/>
+            <ComboBoxItem Tag="moderator" Content="Модератор"/>
+            <ComboBoxItem Tag="analyst" Content="Аналитик"/>
+        </ComboBox>
+
+        <Label Grid.Row="6" Content="Фамилия:"/>
+        <TextBox Grid.Row="7" x:Name="FirstName_TextBox"/>
+
+        <Label Grid.Row="8" Content="Имя:"/>
+        <TextBox Grid.Row="9" x:Name="Name_TextBox"/>
+
+        <Label Grid.Row="10" Content="Отчество:"/>
+        <TextBox Grid.Row="11" x:Name="LastName_TestBox"/>
+
+        <Label Grid.Row="12" Content="" HorizontalContentAlignment="Center"/>
+        <Label Grid.Row="13" Content="Опционально" HorizontalContentAlignment="Center"/>
+
+        <Label Grid.Row="14" Content="Возраст:"/>
+        <TextBox Grid.Row="15" x:Name="Age_TestBox"/>
+
+        <Label Grid.Row="16" Content="Почта:"/>
+        <TextBox Grid.Row="17" x:Name="Email_TestBox"/>
+
+        <Label Grid.Row="18" Content="Телефон:"/>
+        <TextBox Grid.Row="19" x:Name="Phone_TestBox"/>
+
+        <Label Grid.Row="20" Content="Аддрес:"/>
+        <TextBox Grid.Row="21" x:Name="Address_TestBox"/>
+
     </Grid>
 </Page>

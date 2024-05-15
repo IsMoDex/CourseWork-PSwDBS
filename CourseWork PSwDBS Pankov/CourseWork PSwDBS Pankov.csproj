@@ -366,6 +366,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Generator\Content\FIO\fnames_m" />
+    <None Include="Generator\Content\FIO\fnames_w" />
+    <None Include="Generator\Content\FIO\lnames_m" />
+    <None Include="Generator\Content\FIO\lnames_w" />
+    <None Include="Generator\Content\FIO\names_m" />
+    <None Include="Generator\Content\FIO\names_w" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -375,6 +381,27 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Generator\Content\ATC\adjectives" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Generator\Content\ATC\nouns" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Generator\Content\ATC\adverbial" />
+  </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="SQL\db.sql" />
+    <Content Include="SQL\functions.sql" />
+    <Content Include="SQL\inserts.sql" />
+    <Content Include="SQL\partitions.sql" />
+    <Content Include="SQL\requests.sql" />
+    <Content Include="SQL\req_functions.sql" />
+    <Content Include="SQL\rls.sql" />
+    <Content Include="SQL\roles.sql" />
+    <Content Include="SQL\triggers.sql" />
+    <Content Include="SQL\views.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

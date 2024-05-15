@@ -6,6 +6,8 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,22 +24,22 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
         public UpdateProgressBarDelegate updateProgressBar { private get; set; }
 
-        private static string contentPath = Path.Combine(Directory.GetCurrentDirectory(), "Content");
+        //private static string contentPath = Path.Combine(Directory.GetCurrentDirectory(), "Content");
 
         const int MAX_ERRORS_TO_GENERATE = 20;
         public const string DATE_FORMAT = "dd.MM.yyyy";
 
         public Dictionary<string, string> GenerateUsers(int count)
         {
-            const string path = "FIO";
+            //const string path = "FIO";
 
-            string[] fnames_m = ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_m"));
-            string[] names_m = ReadLinesFromFile(Path.Combine(contentPath, path, "names_m"));
-            string[] lnames_m = ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_m"));
+            string[] fnames_m = GetLinesFromBytes(Properties.Resources.fnames_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_m"));
+            string[] names_m = GetLinesFromBytes(Properties.Resources.names_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "names_m"));
+            string[] lnames_m = GetLinesFromBytes(Properties.Resources.lnames_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_m"));
 
-            string[] fnames_w = ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_w"));
-            string[] names_w = ReadLinesFromFile(Path.Combine(contentPath, path, "names_w"));
-            string[] lnames_w = ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_w"));
+            string[] fnames_w = GetLinesFromBytes(Properties.Resources.fnames_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_w"));
+            string[] names_w = GetLinesFromBytes(Properties.Resources.names_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "names_w"));
+            string[] lnames_w = GetLinesFromBytes(Properties.Resources.lnames_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_w"));
 
             string role = "owner_atc";
 
@@ -60,6 +62,24 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                     string lastName = string.Empty;
                     string roleName = role;
 
+                    //string email = GenerateRandomEmail();
+                    //int age = random.Next(22, 65);
+                    //string phone = "+" + GenerateRandomPhoneNumber().ToString();
+                    //string address = GenerateRandomAddress();
+
+                    //string user_data = "{" + $"\"age\": {age}," + $"\"email\": {email}," + $"\"phone\": {phone}," + $"\"address\": {address}" + "}";
+
+                    var dataObject = new
+                    {
+                        age = new Random().Next(22, 65),
+                        email = GenerateRandomEmail(),
+                        phone = "+" + GenerateRandomPhoneNumber().ToString(),
+                        address = GenerateRandomAddress()
+                    };
+
+                    string user_data = JsonSerializer.Serialize(dataObject);
+
+
                     if (gender)
                     {
                         firstName = fnames_m[random.Next(fnames_m.Length)];
@@ -75,7 +95,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                     
                     try
                     {
-                        dbContext.SendRequest($"SELECT create_new_user_by_role('{userLogin}', '{password}', '{firstName}', '{name}', '{lastName}', '{roleName}')");
+                        dbContext.SendRequest($"SELECT create_new_user_by_role('{userLogin}', '{password}', '{roleName}', '{firstName}', '{name}', '{lastName}', '{user_data}')");
 
                         createdUsers.Add(userLogin, password);
                         countErrorsToGenerete = 0;
@@ -113,11 +133,11 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
         public int GenerateAtc(int count)
         {
-            const string path = "ATC";
+            //const string path = "ATC";
 
-            string[] adjectives = ReadLinesFromFile(Path.Combine(contentPath, path, "adjectives"));
-            string[] nouns = ReadLinesFromFile(Path.Combine(contentPath, path, "nouns"));
-            string[] adverbial = ReadLinesFromFile(Path.Combine(contentPath, path, "adverbial"));
+            string[] adjectives = GetLinesFromBytes(Properties.Resources.adjectives); //ReadLinesFromFile(Path.Combine(contentPath, path, "adjectives"));
+            string[] nouns = GetLinesFromBytes(Properties.Resources.nouns); ;//ReadLinesFromFile(Path.Combine(contentPath, path, "nouns"));
+            string[] adverbial = GetLinesFromBytes(Properties.Resources.adverbial); ;//ReadLinesFromFile(Path.Combine(contentPath, path, "adverbial"));
 
             long[] idUrbanAreas = dbContext.GetDataTableBySQL($"SELECT id FROM urban_areas").AsEnumerable().Select(row => row.Field<long>("id")).ToArray();
             int[] idOwnershipTypes = dbContext.GetDataTableBySQL($"SELECT id FROM types_of_ownership").AsEnumerable().Select(row => row.Field<int>("id")).ToArray();
@@ -177,15 +197,15 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
         public int GenerateDrivers(int count)
         {
-            const string path = "FIO";
+            //const string path = "FIO";
 
-            string[] fnames_m = ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_m"));
-            string[] names_m = ReadLinesFromFile(Path.Combine(contentPath, path, "names_m"));
-            string[] lnames_m = ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_m"));
+            string[] fnames_m = GetLinesFromBytes(Properties.Resources.fnames_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_m"));
+            string[] names_m = GetLinesFromBytes(Properties.Resources.names_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "names_m"));
+            string[] lnames_m = GetLinesFromBytes(Properties.Resources.lnames_m); //ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_m"));
 
-            string[] fnames_w = ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_w"));
-            string[] names_w = ReadLinesFromFile(Path.Combine(contentPath, path, "names_w"));
-            string[] lnames_w = ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_w"));
+            string[] fnames_w = GetLinesFromBytes(Properties.Resources.fnames_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "fnames_w"));
+            string[] names_w = GetLinesFromBytes(Properties.Resources.names_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "names_w"));
+            string[] lnames_w = GetLinesFromBytes(Properties.Resources.lnames_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_w"));
 
             int[] idCategories = dbContext.GetDataTableBySQL($"SELECT id FROM driving_categories").AsEnumerable().Select(row => row.Field<int>("id")).ToArray();
             Dictionary<long, int> idAtcs = dbContext.GetDataTableBySQL($"SELECT id, year FROM atc")
@@ -422,6 +442,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             }
         }
 
+
         public DateTime GenerateRandomDate(DateTime startDate, DateTime endDate)
         {
             if (startDate >= endDate)
@@ -440,6 +461,63 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             long max = 9999999999;
             return random.Next((int)min, (int)max);
         }
+
+        private string GenerateRandomString(int length)
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Доступные символы
+            StringBuilder stringBuilder = new StringBuilder(length);
+
+            for (int i = 0; i < length; i++)
+            {
+                stringBuilder.Append(chars[random.Next(chars.Length)]);
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private string GenerateRandomEmail()
+        {
+            string[] emailDomains = { "gmail.com", "yahoo.com", "outlook.com", "mail.ru", "yandex.ru", "aol.com", "protonmail.com", "icloud.com", "zoho.com", "gmx.com" };
+
+            return GenerateRandomString(random.Next(3, 20)) + "@" + emailDomains[random.Next(emailDomains.Length)];
+        }
+
+        static string GenerateRandomAddress()
+        {
+            Random random = new Random();
+
+            if (random.Next(10) <= 4)
+            {
+                string[] usStreetNames = { "Maple", "Oak", "Pine", "Cedar", "Elm", "Main", "First", "Second", "Third" };
+                string[] usStreetTypes = { "Street", "Avenue", "Lane", "Road", "Boulevard", "Court" };
+                string[] usCities = { "New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose" };
+                string[] usStates = { "NY", "CA", "IL", "TX", "AZ", "PA", "TX", "CA", "TX", "CA" };
+                int usHouseNumber = random.Next(1, 1000);
+                string usStreetName = usStreetNames[random.Next(usStreetNames.Length)];
+                string usStreetType = usStreetTypes[random.Next(usStreetTypes.Length)];
+                string usCity = usCities[random.Next(usCities.Length)];
+                string usState = usStates[random.Next(usStates.Length)];
+
+                return $"{usHouseNumber} {usStreetName} {usStreetType}, {usCity}, {usState}";
+            }
+            else
+            {
+                string[] ruStreetNames = { "Ленина", "Пушкина", "Гагарина", "Советская", "Мира", "Центральная", "Новая", "Садовая", "Школьная" };
+                string[] ruStreetTypes = { "ул.", "пр-т.", "пер.", "пл.", "проезд", "бул." };
+                string[] ruCities = { "Москва", "Санкт-Петербург", "Новосибирск", "Екатеринбург", "Нижний Новгород", "Казань", "Челябинск", "Омск", "Самара", "Ростов-на-Дону" };
+                string[] ruRegions = { "Московская обл.", "Ленинградская обл.", "Новосибирская обл.", "Свердловская обл.", "Нижегородская обл.", "Республика Татарстан", "Челябинская обл.", "Омская обл.", "Самарская обл.", "Ростовская обл." };
+                int ruHouseNumber = random.Next(1, 200);
+                string ruStreetName = ruStreetNames[random.Next(ruStreetNames.Length)];
+                string ruStreetType = ruStreetTypes[random.Next(ruStreetTypes.Length)];
+                string ruCity = ruCities[random.Next(ruCities.Length)];
+                string ruRegion = ruRegions[random.Next(ruRegions.Length)];
+
+                return $"{ruCity}, {ruStreetName} {ruStreetType}, {ruHouseNumber}, {ruRegion}";
+            }
+        }
+
+
 
         private string[] ReadLinesFromFile(string filePath)
         {
@@ -464,6 +542,20 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             }
 
             return lines.ToArray();
+        }
+
+        private string[] GetLinesFromBytes(byte[] bytes)
+        {
+            // Получаем массив байтов из ресурсов
+            byte[] byteArray = bytes;
+
+            // Преобразуем массив байтов в строку, используя определенную кодировку
+            string content = Encoding.UTF8.GetString(byteArray); // Используйте правильную кодировку
+
+            // Разделяем строку на массив строк по разделителю (если строки разделены, например, символом новой строки)
+            string[] lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            return lines;
         }
     }
 }
