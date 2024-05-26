@@ -384,6 +384,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="SQL\structure.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -401,6 +402,7 @@
   <ItemGroup>
     <Content Include="SQL\db.sql" />
     <Content Include="SQL\functions.sql" />
+    <Content Include="SQL\indexes.sql" />
     <Content Include="SQL\inserts.sql" />
     <Content Include="SQL\partitions.sql" />
     <Content Include="SQL\requests.sql" />
