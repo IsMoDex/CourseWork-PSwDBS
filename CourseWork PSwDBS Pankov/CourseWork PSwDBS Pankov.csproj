@@ -160,6 +160,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ExcelManager.cs" />
+    <Compile Include="RegistationWindow.xaml.cs">
+      <DependentUpon>RegistationWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Generator\GeneratorFrom.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -272,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OperationPages\TablePages\dataOP_users_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegistationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -397,6 +404,7 @@
     <Content Include="SQL\inserts.sql" />
     <Content Include="SQL\partitions.sql" />
     <Content Include="SQL\requests.sql" />
+    <Content Include="SQL\requests_json.sql" />
     <Content Include="SQL\req_functions.sql" />
     <Content Include="SQL\rls.sql" />
     <Content Include="SQL\roles.sql" />

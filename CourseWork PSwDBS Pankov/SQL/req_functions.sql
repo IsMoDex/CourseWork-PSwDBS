@@ -82,7 +82,7 @@ BEGIN
             b.name, 
             d.name, 
             a.year, 
-            a.phone
+            a.phone::BIGINT
         FROM public.atc a
         JOIN public.urban_areas b ON b.id = a.id_urban_area
         JOIN public.cities c ON c.id = b.id_city
@@ -226,7 +226,7 @@ RETURNS TABLE
     phone bigint
 ) AS $$
 BEGIN
-    RETURN QUERY SELECT a.id, a.name, a.id_urban_area, a.id_type_of_ownership, a.year, a.phone
+    RETURN QUERY SELECT a.id, a.name, a.id_urban_area, a.id_type_of_ownership, a.year, a.phone::BIGINT
         FROM atc  a
         WHERE a.user_owner = CURRENT_USER;
 END;
@@ -308,7 +308,7 @@ BEGIN
 
     -- Вставка данных в таблицу atc
     INSERT INTO atc(name, id_urban_area, id_type_of_ownership, year, phone) 
-    VALUES (name_atc, urban_area_id, type_ownership_id, year_atc, phone_atc);
+    VALUES (name_atc, urban_area_id, type_ownership_id, year_atc, phone_atc::phone_domain);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -598,7 +598,7 @@ BEGIN
         id_urban_area = urban_area_id, 
         id_type_of_ownership = type_ownership_id, 
         year = year_atc, 
-        phone = phone_atc
+        phone = phone_atc::phone_domain
     WHERE id = id_user_atc;
 
     IF NOT FOUND THEN

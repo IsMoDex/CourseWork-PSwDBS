@@ -35,6 +35,8 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
             InitializeComponent();
 
             dbContext = DbContext_Npgsql.GetInstance();
+
+            DataSelection = new SQLRequestSampling();
             //LoadData();
         }
 
@@ -47,13 +49,16 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
         {
             get
             {
-                var list = dbContext.ReadFirstDictionaryRecordFromDatabaseBySQL($"SELECT COUNT(*) FROM {SelectedTable}");
+                //var list = dbContext.ReadFirstDictionaryRecordFromDatabaseBySQL($"SELECT COUNT(*) FROM {SelectedTable}");
 
 
-                if (list.Count == 0)
-                    return 0;
+                //if (list.Count == 0)
+                //    return 0;
 
-                return (long)list["count"];
+                //return (long)list["count"];
+
+                var count = dbContext.ExecuteScalar<long>($"SELECT COUNT(*) FROM {SelectedTable}");
+                return count;
             }
         }
 
@@ -61,8 +66,31 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
         private int CurrentList;
         private int CountLists;
 
-        private ListSortDirection? sort;
-        private string OrderByColumn = null;
+        public SQLRequestSampling DataSelection { get; private set; } = null;
+
+        //private ListSortDirection? sort;
+        //private string OrderByColumn = null;
+
+        public class SQLRequestSampling
+        {
+            public ListSortDirection? sort { get; set; } = null;
+            public string OrderByColumn { get; set; } = null;
+            public string ValueBySearch { get; set; } = null;
+
+            public bool IsCorrectness
+            {
+                get
+                {
+                    if (OrderByColumn == null)
+                        return false;
+
+                    if (sort == null && ValueBySearch == null)
+                        return false;
+
+                    return true;
+                }
+            }
+        }
 
         public DataColumnCollection Columns { private set; get; }
 
@@ -109,10 +137,10 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
         {
             SelectedTable = TableName;
 
-            SetListByNumberList(0);
+            SetDataByNumberList(0);
         }
 
-        public void RefreshData() => SetListByNumberList(CurrentList);
+        public void RefreshData() => SetDataByNumberList(CurrentList);
 
         private void ResetInfo() => CountLists = (int)Math.Ceiling((double)CountRecords / LimitRecords);
 
@@ -175,7 +203,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
             return Convert.ToInt64(value);
         }
 
-        private void SetListByNumberList(int NumberList)
+        private void SetDataByNumberList(int NumberList)
         {
             CurrentList = NumberList;
             ResetInfo();
@@ -202,28 +230,59 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
 
             PagePosition_Lable.Content = $"Страница {CurrentList + 1} из {CountLists}";
 
+            int offset = CurrentList * LimitRecords;
+
+            DataGridSetter(offset, LimitRecords);
+        }
+
+        private void DataGridSetter(int offset, int limitRecords)
+        {
             DataTable dt;
 
-            if(sort == null || OrderByColumn == null)
-            {
-                dt = dbContext.GetDataTableBySQL($"SELECT * FROM {SelectedTable} OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};");
-            }
-            else
-            {
-                string order_by = sort == ListSortDirection.Ascending ? "ASC" : "DESC";
+            string sqlRequest = $"SELECT * FROM {SelectedTable} ";
 
-                dt = dbContext.GetDataTableBySQL($"SELECT * FROM {SelectedTable} ORDER BY \"{OrderByColumn}\" {order_by} OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};");
+            //if (DataSelection == null || !DataSelection.IsCorrectness)
+            //{
+            //    dt = dbContext.GetDataTableBySQL($"SELECT * FROM {SelectedTable} OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};");
+            //}
+            //else if (DataSelection.ValueBySearch)
+            //{
+
+            //}
+            //else
+            //{
+            //    string order_by = sort == ListSortDirection.Ascending ? "ASC" : "DESC";
+
+            //    dt = dbContext.GetDataTableBySQL($"SELECT * FROM {SelectedTable} ORDER BY \"{OrderByColumn}\" {order_by} OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};");
+            //}
+
+            if(DataSelection.IsCorrectness)
+            {
+                if (DataSelection.ValueBySearch != null)
+                {
+                    sqlRequest += $"WHERE \"{DataSelection.OrderByColumn}\" = '{DataSelection.ValueBySearch}' ";
+                }
+
+                if (DataSelection.sort != null)
+                {
+                    string order_by = DataSelection.sort == ListSortDirection.Ascending ? "ASC" : "DESC";
+
+                    sqlRequest += $"ORDER BY \"{DataSelection.OrderByColumn}\" {order_by} ";
+                }
             }
 
-            
+            sqlRequest += $"OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};";
+
+            dt = dbContext.GetDataTableBySQL(sqlRequest);
+
             Columns = dt.Columns;
-            
+
             SetDataGridByDataTable(dt);
         }
 
-        private void pagination_prev_button_Click(object sender, RoutedEventArgs e) => SetListByNumberList(--CurrentList);
+        private void pagination_prev_button_Click(object sender, RoutedEventArgs e) => SetDataByNumberList(--CurrentList);
 
-        private void pagination_next_button_Click(object sender, RoutedEventArgs e) => SetListByNumberList(++CurrentList);
+        private void pagination_next_button_Click(object sender, RoutedEventArgs e) => SetDataByNumberList(++CurrentList);
 
         private void Db_DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
         {
@@ -234,23 +293,23 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
 
 
             // Меняем направление сортировки
-            if (sort == null)
+            if (DataSelection.sort == null)
             {
-                sort = ListSortDirection.Ascending;
-                OrderByColumn = e.Column.Header.ToString();
+                DataSelection.sort = ListSortDirection.Ascending;
+                DataSelection.OrderByColumn = e.Column.Header.ToString();
             }
-            else if(sort == ListSortDirection.Ascending)
+            else if(DataSelection.sort == ListSortDirection.Ascending)
             {
-                sort = ListSortDirection.Descending;
-                OrderByColumn = e.Column.Header.ToString();
+                DataSelection.sort = ListSortDirection.Descending;
+                DataSelection.OrderByColumn = e.Column.Header.ToString();
             }
             else
             {
-                sort = null;
-                OrderByColumn = null;
+                DataSelection.sort = null;
+                DataSelection.OrderByColumn = null;
             }
 
-            SetListByNumberList(CurrentList);
+            SetDataByNumberList(CurrentList);
 
             //// Меняем направление сортировки
             //if (sort == ListSortDirection.Ascending)

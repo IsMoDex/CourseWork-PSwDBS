@@ -1,0 +1,33 @@
+{
+  "personal_info": {
+    "age": 45,
+    "gender": "male",
+    "address": {
+      "city": "Random City",
+      "street_type": "St",
+      "street": "Random St",
+      "house_number": "123",
+      "region": "RS"
+    }
+  },
+  "contact_info": {
+    "email": "random.email@example.com",
+    "phones": {
+      "home": "+1234567890",
+      "work": "+0987654321"
+    }
+  },
+  "preferences": {
+    "theme": "dark",
+    "language": "en",
+    "notifications": {
+      "email": true,
+      "sms": false
+    }
+  },
+  "additional_info": {
+    "height": 172,
+    "weight": 85,
+    "hobbies": ["reading", "hiking", "coding"]
+  }
+}

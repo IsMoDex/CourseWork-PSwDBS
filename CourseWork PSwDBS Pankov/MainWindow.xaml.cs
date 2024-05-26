@@ -47,11 +47,11 @@ namespace CourseWork_PSwDBS_Pankov
             InitializeComponent();
 
             DbContext = DbContext_Npgsql.GetInstance();
-            DbContext.User = "postgres";
+            //DbContext.User = "postgres";
             //DbContext.User = "owner1";
-            //DbContext.User = "moder1";
-            //DbContext.User = "anal1";
-            DbContext.Password = "1234";
+            ////DbContext.User = "moder1";
+            ////DbContext.User = "anal1";
+            //DbContext.Password = "1234";
         }
 
         private string SelectedTable
@@ -217,6 +217,11 @@ namespace CourseWork_PSwDBS_Pankov
         private void AvailableTablesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //var dt = DbContext.GetDataTableByTable($"get_{SelectedTable}_info()");
+
+            dbContentPage.DataSelection.OrderByColumn = null;
+            dbContentPage.DataSelection.sort = null;
+            dbContentPage.DataSelection.ValueBySearch = null;
+
             SetContentByDataTable(true);
 
             if(SelectedTable != null)
@@ -238,7 +243,6 @@ namespace CourseWork_PSwDBS_Pankov
                     BackButton.IsEnabled = SelectedTable != null;
                 }
             }
-            
         }
 
         private void SetContentByDataTable(bool ForResetColumnsName)
@@ -254,6 +258,7 @@ namespace CourseWork_PSwDBS_Pankov
             else
             {
                 dbContentPage.SetDataGridByTableName($"get_{SelectedTable}_info()");
+                
                 //BackButton.IsEnabled = false;
             }
 
@@ -262,7 +267,9 @@ namespace CourseWork_PSwDBS_Pankov
             CountRecordsLable.Content = "Записей: " + dbContentPage.CountRecords;
 
             if(ForResetColumnsName)
+            {
                 SetColumnsNameInColumnsComboBox(dbContentPage.Columns);
+            }
 
             BackButton_Click(null, null);
         }
@@ -377,9 +384,11 @@ namespace CourseWork_PSwDBS_Pankov
         {
             var nameColumn = SelectedColumn.Content.ToString();
 
-            var SQL = $"SELECT * FROM get_{SelectedTable}_info() WHERE \"{nameColumn}\" = '{ValueBySearchTextBox.Text}'";
+            //var SQL = $"SELECT * FROM get_{SelectedTable}_info() WHERE \"{nameColumn}\" = '{ValueBySearchTextBox.Text}'";
 
-            var dt = DbContext.GetDataTableBySQL(SQL);
+            dbContentPage.DataSelection.OrderByColumn = nameColumn;
+            dbContentPage.DataSelection.sort = null;
+            dbContentPage.DataSelection.ValueBySearch = ValueBySearchTextBox.Text;
 
             SetContentByDataTable(false);
         }
@@ -483,12 +492,12 @@ namespace CourseWork_PSwDBS_Pankov
                 {
                     ExcelManager excelManager = new ExcelManager();
 
-                    excelManager.AddDataAndChartByTableName("get_top_cars_with_most_deliveries()");
-                    excelManager.AddDataAndChartByTableName("get_top_drivers_with_most_deliveries_and_salaries()");
-                    excelManager.AddDataAndChartByTableName("get_top_cities_with_most_deliveries()");
+                    excelManager.AddDataAndChartByTableName("get_top_cars_with_most_deliveries()", "Автомобили совершившие больше всего поставок");
+                    excelManager.AddDataAndChartByTableName("get_top_drivers_with_most_deliveries_and_salaries()", "Водители совершившие больше всего поставок и их зарплаты");
+                    excelManager.AddDataAndChartByTableName("get_top_cities_with_most_deliveries()", "Города в которые было совершено больше всего поставок");
 
                     if (DbContext.CheckRoleUser(DbContext_Npgsql.Roles.Analyst))
-                        excelManager.AddDataAndChartByTableName("get_top_atcs_with_most_deliveries()");
+                        excelManager.AddDataAndChartByTableName("get_top_atcs_with_most_deliveries()", "АТС в которыми было совершено больше всего поставок");
 
                     excelManager.DocumentSaveAs(filePath); //"Document.xlsx"
 

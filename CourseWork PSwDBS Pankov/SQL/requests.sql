@@ -249,9 +249,9 @@ $$ LANGUAGE plpgsql;
 -- Запрос с подзапросом
 -- Функция возвращает общую стоимость транспортировок для грузов весом больше заданного.
 CREATE OR REPLACE FUNCTION getTransportationCostByCargoWeight(min_weight INTEGER)
-RETURNS INTEGER AS $$
+RETURNS BIGINT AS $$
 DECLARE
-    total_cost INTEGER;
+    total_cost BIGINT;
 BEGIN
     SELECT SUM(cost_of_transportation)
     INTO total_cost

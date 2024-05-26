@@ -112,3 +112,18 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Получить всех пользователей у которых нет АТС
+CREATE OR REPLACE FUNCTION get_free_atc_owners(generate_limit BIGINT)
+RETURNS TABLE (login TEXT)	
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT u.login
+    FROM users u 
+    LEFT JOIN atc a ON u.login = a.user_owner
+    WHERE pg_has_role(u.login, 'owner_atc', 'MEMBER') 
+    AND a.user_owner IS NULL
+    LIMIT generate_limit;
+END;
+$$ LANGUAGE plpgsql;

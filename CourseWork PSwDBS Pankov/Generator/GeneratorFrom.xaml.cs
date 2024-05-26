@@ -32,6 +32,10 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             Tables_ComboBox.Items.Add("Водители");
             Tables_ComboBox.Items.Add("Автомобили");
             Tables_ComboBox.Items.Add("Перевозки");
+            Tables_ComboBox.Items.Add("Пользователи");
+
+            Tables_ComboBox.Items.Add("Перевозки по хешу");
+            Tables_ComboBox.Items.Add("Перевозки по диапазону");
         }
 
         private async void Accept_Button_Click(object sender, RoutedEventArgs e)
@@ -50,7 +54,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                 switch (key)
                 {
                     case "АТС":
-                        CountGenereted = generator.GenerateAtc(Count);
+                        CountGenereted = generator.GenerateAtc(Count, true);
                         break;
 
                     case "Водители":
@@ -62,7 +66,19 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                         break;
 
                     case "Перевозки":
-                        CountGenereted = generator.GenerateTransportations(Count);
+                        CountGenereted = generator.GenerateTransportationTable(Count);
+                        break;
+
+                    case "Пользователи":
+                        CountGenereted = generator.GenerateUsers(Count, new string[] { "moderator", "analyst" }).Count; //"owner_atc", 
+                        break;
+
+                    case "Перевозки по хешу":
+                        CountGenereted = generator.GenerateTransportationPartitionHash(Count);
+                        break;
+
+                    case "Перевозки по диапазону":
+                        CountGenereted = generator.GenerateTransportationPartitionRange(Count);
                         break;
                 }
             });

@@ -42,7 +42,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.RequestPages
             {
                 var costObj = dbContext.ExecuteScalar<object>($"SELECT * FROM getTransportationCostByCargoWeight('{WeightTextBox.Text}')");
 
-                if(costObj is int)
+                if(costObj is long)
                 {
                     CostTranspoerationLable.Content = "Общая стоимость: " + costObj;
                 }

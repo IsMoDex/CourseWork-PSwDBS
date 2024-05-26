@@ -28,7 +28,7 @@ END $$ LANGUAGE plpgsql;
 -- public.cargo,
 -- public.car_brands,
 -- public.cars,
--- public.transportation
+-- public.transportation_table
 -- CASCADE;
 
 CREATE TABLE IF NOT EXISTS public.cities
@@ -60,6 +60,10 @@ CREATE TABLE IF NOT EXISTS public.users
     data JSONB
 );
 
+-- Создаем домен для номера телефона
+CREATE OR REPLACE DOMAIN phone_domain AS bigint
+CHECK (VALUE >= 1 AND VALUE <= 99999999999);
+
 CREATE TABLE IF NOT EXISTS public.atc
 (
     id bigserial PRIMARY KEY,
@@ -67,7 +71,7 @@ CREATE TABLE IF NOT EXISTS public.atc
     id_urban_area bigint NOT NULL,
     id_type_of_ownership integer NOT NULL,
     year integer NOT NULL, --CHECK (year <= EXTRACT(YEAR FROM CURRENT_DATE)),
-    phone bigint NOT NULL UNIQUE,
+    phone phone_domain NOT NULL UNIQUE,
     user_owner text NOT NULL DEFAULT CURRENT_USER 
 );
 
@@ -113,7 +117,7 @@ CREATE TABLE IF NOT EXISTS public.cars
     id_car_brand bigint NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS public.transportation
+CREATE TABLE IF NOT EXISTS public.transportation_table
 (
     id bigserial PRIMARY KEY,
     id_cargo bigint NOT NULL,
@@ -122,7 +126,7 @@ CREATE TABLE IF NOT EXISTS public.transportation
     id_city_arrival bigint NOT NULL,   --Город прибытия
     departure_date date NOT NULL, --Дата отбытия
     arrival_date date,   --Дата прибытия
-    cost_of_transportation integer NOT NULL,
+    cost_of_transportation_table integer NOT NULL,
     id_car bigint NOT NULL,
     id_driver bigint NOT NULL
 );
@@ -179,7 +183,7 @@ ALTER TABLE IF EXISTS public.cars
     NOT VALID,
     ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE IF EXISTS public.transportation
+ALTER TABLE IF EXISTS public.transportation_table
     ADD CONSTRAINT id_cargo FOREIGN KEY (id_cargo)
     REFERENCES public.cargo (id) MATCH SIMPLE
     ON UPDATE NO ACTION

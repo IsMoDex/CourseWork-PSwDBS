@@ -41,6 +41,8 @@ REVOKE SELECT, INSERT, UPDATE, DELETE ON public.users FROM owner_atc;
 GRANT ALL ON TABLE public.atc TO owner_atc;
 GRANT ALL ON TABLE public.drivers TO owner_atc;
 GRANT ALL ON TABLE public.cars TO owner_atc;
+GRANT ALL ON TABLE public.transportation_table TO owner_atc;
+
 GRANT ALL ON TABLE public.transportation TO owner_atc;
 --GRANT EXECUTE ON FUNCTION get_atc_user_info() TO owner_atc;
 
@@ -62,6 +64,8 @@ GRANT ALL ON TABLE public.car_brands TO moderator;
 GRANT SELECT (id, id_urban_area, id_type_of_ownership) ON TABLE public.atc TO moderator;
 GRANT SELECT (id, id_owning_atc, id_driving_category) ON TABLE public.drivers TO moderator;
 GRANT SELECT (id, id_owning_atc, id_car_brand) ON TABLE public.cars TO moderator;
+GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation_table TO moderator;
+
 GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation TO moderator;
 
 

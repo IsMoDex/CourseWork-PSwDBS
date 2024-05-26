@@ -42,11 +42,11 @@ namespace CourseWork_PSwDBS_Pankov
             worksheet.Cells["A1"].LoadFromDataTable(dataTable, true);
         }
 
-        public void AddDataAndChartByTableName(string TableName)
+        public void AddDataAndChartByTableName(string TableName, string PageName = null)
         {
             var dt = dbContext.GetDataTableByTable(TableName);
 
-            var worksheet = CreateNewPage(TableName);
+            var worksheet = CreateNewPage(PageName == null ? TableName : PageName); // TableName
 
             // Заполнение данных из DataTable в Excel-файл
             worksheet.Cells["A1"].LoadFromDataTable(dt, true);

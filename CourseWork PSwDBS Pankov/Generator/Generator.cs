@@ -29,7 +29,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
         const int MAX_ERRORS_TO_GENERATE = 20;
         public const string DATE_FORMAT = "dd.MM.yyyy";
 
-        public Dictionary<string, string> GenerateUsers(int count)
+        public Dictionary<string, string> GenerateUsers(int count, string[] roles)
         {
             //const string path = "FIO";
 
@@ -41,7 +41,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             string[] names_w = GetLinesFromBytes(Properties.Resources.names_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "names_w"));
             string[] lnames_w = GetLinesFromBytes(Properties.Resources.lnames_w); //ReadLinesFromFile(Path.Combine(contentPath, path, "lnames_w"));
 
-            string role = "owner_atc";
+            string role = roles[random.Next(roles.Length)];
 
             var createdUsers = new Dictionary<string, string>();
 
@@ -61,6 +61,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                     string name = string.Empty;
                     string lastName = string.Empty;
                     string roleName = role;
+                    string user_data = GenerateUserDataJSON(gender);
 
                     //string email = GenerateRandomEmail();
                     //int age = random.Next(22, 65);
@@ -69,15 +70,15 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
                     //string user_data = "{" + $"\"age\": {age}," + $"\"email\": {email}," + $"\"phone\": {phone}," + $"\"address\": {address}" + "}";
 
-                    var dataObject = new
-                    {
-                        age = new Random().Next(22, 65),
-                        email = GenerateRandomEmail(),
-                        phone = "+" + GenerateRandomPhoneNumber().ToString(),
-                        address = GenerateRandomAddress()
-                    };
+                    //var dataObject = new
+                    //{
+                    //    age = new Random().Next(22, 65),
+                    //    email = GenerateRandomEmail(),
+                    //    phone = "+" + GenerateRandomPhoneNumber().ToString(),
+                    //    address = GenerateRandomAddress()
+                    //};
 
-                    string user_data = JsonSerializer.Serialize(dataObject);
+                    //string user_data = JsonSerializer.Serialize(dataObject);
 
 
                     if (gender)
@@ -120,6 +121,68 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             return createdUsers;
         }
 
+        private string GenerateUserDataJSON(bool gender)
+        {
+            string[] hobbies = {
+    "Рисование", "Фотография", "Вязание", "Плавание", "Чтение", "Йога", "Медитация", "Путешествия",
+    "Пение", "Игра на гитаре", "Игра на пианино", "Гончарное дело", "Вышивание крестиком", "Коллекционирование марок",
+    "Коллекционирование монет", "Рыбалка", "Походы", "Кемпинг", "Кулинария", "Выпечка", "Садоводство",
+    "Разведение комнатных растений", "Аквариумистика", "Флористика", "Волонтерство", "Работа с деревом",
+    "Лепка из глины", "Моделирование", "Аэрография", "Настольные игры", "Пазлы", "Танцы", "Катание на коньках",
+    "Катание на роликах", "Велоспорт", "Бег", "Фитнес", "Подводное плавание", "Сноубординг", "Лыжи", "Серфинг",
+    "Скейтбординг", "Графический дизайн", "Программирование", "Робототехника", "Изучение иностранных языков",
+    "Каллиграфия", "Писательство", "Ведение блога", "Видеоблоггинг", "Подкастинг", "Игра в шахматы", "Игра в шашки",
+    "Рукопашный бой", "Карате", "Джиу-джитсу", "Тай-чи", "Стрельба из лука", "Пейнтбол", "Лазертаг", "Косплей",
+    "Моделирование железных дорог", "Коллекционирование фигурок", "Занятие астрономией", "Ведение дневника",
+    "Кроссворды", "Садоводство", "Стрельба", "Гольф", "Теннис", "Бадминтон", "Футбол", "Баскетбол", "Волейбол",
+    "Крикет", "Американский футбол", "Регби", "Сквош", "Боуллинг", "Фрисби", "Катание на лодке", "Виндсерфинг",
+    "Парапланеризм", "Дельтапланеризм", "Парашютизм", "Полёты на воздушном шаре", "Скалолазание", "Альпинизм",
+    "Спелеология", "Геокешинг", "Бёрдинг (наблюдение за птицами)", "Астрология", "Нумерология", "Таро",
+    "Моделирование одежды", "Макияж", "Парикмахерское искусство", "Барменинг", "Смешивание ароматов",
+    "Занятие йогой для животных"
+};
+
+
+            var dataObject = new
+            {
+                personal_info = new
+                {
+                    age = new Random().Next(22, 65),
+                    gender = gender ? "male" : "fmale",
+                    address = GenerateRandomAddress()
+                },
+                contact_info = new
+                {
+                    email = GenerateRandomEmail(),
+                    phones = new
+                    {
+                        home = "+" + GenerateRandomPhoneNumber().ToString(),
+                        work = "+" + GenerateRandomPhoneNumber().ToString(),
+                    }
+                },
+                preferences = new
+                {
+                    theme = random.Next(10) >= 5 ? "dark" : "light",
+                    language = random.Next(10) >= 4 ? "ru" : "en",
+                    notifications = new
+                    {
+                        email = random.Next(10) >= 4,
+                        sms = random.Next(10) >= 2
+                    }
+                },
+                additional_info = new
+                {
+                    height = random.Next(129, 185),
+                    weight = random.Next(60, 100),
+                    hobbies = hobbies.OrderBy(x => random.Next()).Take(random.Next(1, 12)).ToArray()
+                }
+            };
+
+            string user_data = JsonSerializer.Serialize(dataObject);
+
+            return user_data;
+        }
+
         private string GenerateRandomPassword()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -131,7 +194,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             return new string(passwordChars);
         }
 
-        public int GenerateAtc(int count)
+        public int GenerateAtc(int count, bool TakeExisting)
         {
             //const string path = "ATC";
 
@@ -141,7 +204,23 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
             long[] idUrbanAreas = dbContext.GetDataTableBySQL($"SELECT id FROM urban_areas").AsEnumerable().Select(row => row.Field<long>("id")).ToArray();
             int[] idOwnershipTypes = dbContext.GetDataTableBySQL($"SELECT id FROM types_of_ownership").AsEnumerable().Select(row => row.Field<int>("id")).ToArray();
-            string[] logins = GenerateUsers(count).Select(x => x.Key).ToArray();
+            string[] logins = null;
+            
+            if(TakeExisting)
+            {
+                // Извлечение логинов из DataTable и преобразование их в массив
+                logins = dbContext.GetDataTableByTable($"get_free_atc_owners({count})")
+                                                    .AsEnumerable()
+                                                    .Select(row => row.Field<string>("login"))
+                                                    .ToArray();
+
+                string[] genereted_users = GenerateUsers(count - logins.Length, new string[] { "owner_atc" }).Select(x => x.Key).ToArray();
+
+                // Объединение массивов логинов
+                logins = logins.Concat(genereted_users).ToArray();
+            }
+            else
+                logins = GenerateUsers(count, new string[] { "owner_atc" }).Select(x => x.Key).ToArray();
 
             int countCreatedATC = 0;
 
@@ -351,7 +430,22 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             public int StartYear_Atc { get; set; }
         }
 
-        public int GenerateTransportations(int count)
+        public int GenerateTransportationTable(int count)
+        {
+            return GenerateForTransportationsTables(count, "transportation");
+        }
+
+        public int GenerateTransportationPartitionHash(int count)
+        {
+            return GenerateForTransportationsTables(count, "transportation_hash");
+        }
+
+        public int GenerateTransportationPartitionRange(int count)
+        {
+            return GenerateForTransportationsTables(count, "transportation_range");
+        }
+
+        private int GenerateForTransportationsTables(int count, string table)
         {
             var idCities = dbContext.GetDataTableBySQL("SELECT id FROM cities").AsEnumerable()
                             .Select(row => row.Field<long>("id")).ToArray();
@@ -402,7 +496,7 @@ namespace CourseWork_PSwDBS_Pankov.Generator
 
                     try
                     {
-                        dbContext.SendRequest($"INSERT INTO transportation (id_cargo, number_of_units, id_city_departure, id_city_arrival, departure_date, arrival_date, cost_of_transportation, id_car, id_driver) " +
+                        dbContext.SendRequest($"INSERT INTO {table} (id_cargo, number_of_units, id_city_departure, id_city_arrival, departure_date, arrival_date, cost_of_transportation, id_car, id_driver) " +
                                 $"VALUES ('{idCargo}', '{numberOfUnits}', '{idCityDeparture}', '{idCityArrival}', '{departureDate}', '{arrivalDate}', '{costOfTransportation}', '{idCar}', '{idDriver}')");
 
                         createdTransportations++;
@@ -483,9 +577,15 @@ namespace CourseWork_PSwDBS_Pankov.Generator
             return GenerateRandomString(random.Next(3, 20)) + "@" + emailDomains[random.Next(emailDomains.Length)];
         }
 
-        static string GenerateRandomAddress()
+        static object GenerateRandomAddress()
         {
             Random random = new Random();
+
+            string u_city;
+            string u_street_type;
+            string u_street;
+            int u_house_number;
+            string u_region;
 
             if (random.Next(10) <= 4)
             {
@@ -499,7 +599,14 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                 string usCity = usCities[random.Next(usCities.Length)];
                 string usState = usStates[random.Next(usStates.Length)];
 
-                return $"{usHouseNumber} {usStreetName} {usStreetType}, {usCity}, {usState}";
+                //return $"{usHouseNumber} {usStreetName} {usStreetType}, {usCity}, {usState}";
+
+
+                u_city = usCity;
+                u_street_type = usStreetType;
+                u_street = usStreetName;
+                u_house_number = usHouseNumber;
+                u_region = usState;
             }
             else
             {
@@ -513,8 +620,25 @@ namespace CourseWork_PSwDBS_Pankov.Generator
                 string ruCity = ruCities[random.Next(ruCities.Length)];
                 string ruRegion = ruRegions[random.Next(ruRegions.Length)];
 
-                return $"{ruCity}, {ruStreetName} {ruStreetType}, {ruHouseNumber}, {ruRegion}";
+                //return $"{ruCity}, {ruStreetName} {ruStreetType}, {ruHouseNumber}, {ruRegion}";
+
+                u_city = ruCity;
+                u_street_type = ruStreetType;
+                u_street = ruStreetName;
+                u_house_number = ruHouseNumber;
+                u_region = ruRegion;
             }
+
+            var address = new
+            {
+                city = u_city,
+                street_type = u_street_type,
+                street = u_street,
+                house_number = u_house_number,
+                region = u_region
+            };
+
+            return address;
         }
 
 

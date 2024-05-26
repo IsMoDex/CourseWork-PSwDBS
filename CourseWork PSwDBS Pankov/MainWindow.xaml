@@ -20,10 +20,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Column="1" Grid.Row="0">
+        <DockPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
             <Label DockPanel.Dock="Left" Content="Списки:"/>
             <!-- Элементы списка -->
-            <ComboBox x:Name="AvailableTablesComboBox" DockPanel.Dock="Left" Text="Выбирите таблицу" Margin="0,0,5,0" SelectionChanged="AvailableTablesComboBox_SelectionChanged"/>
+            <ComboBox x:Name="AvailableTablesComboBox" DockPanel.Dock="Left" Text="Выбирите таблицу" Margin="0,0,5,0" SelectionChanged="AvailableTablesComboBox_SelectionChanged" Width="150"/>
 
             <Button x:Name="OpenGenerator_Button" Visibility="Collapsed" DockPanel.Dock="Left" Content="Генератор" Margin="0 0 5 0" Click="OpenGenerator_Button_Click"/>
             <Button x:Name="SaveTheReport_Button" Visibility="Collapsed" DockPanel.Dock="Left" Content="Отчет в Excel" Margin="0 0 5 0" Click="SaveTheReport_Button_Click"/>
