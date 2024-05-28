@@ -72,7 +72,8 @@ RETURNS TABLE
     "Район" text, 
     "Тип собственности" text, 
     "Год открытия" integer, 
-    "Телефон" bigint
+    "Телефон" bigint,
+    "Владелец" TEXT
 ) AS $$
 BEGIN
     RETURN QUERY 
@@ -82,7 +83,8 @@ BEGIN
             b.name, 
             d.name, 
             a.year, 
-            a.phone::BIGINT
+            a.phone::BIGINT,
+            a.user_owner
         FROM public.atc a
         JOIN public.urban_areas b ON b.id = a.id_urban_area
         JOIN public.cities c ON c.id = b.id_city
@@ -309,6 +311,49 @@ BEGIN
     -- Вставка данных в таблицу atc
     INSERT INTO atc(name, id_urban_area, id_type_of_ownership, year, phone) 
     VALUES (name_atc, urban_area_id, type_ownership_id, year_atc, phone_atc::phone_domain);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION insert_data_atc
+(
+    name_atc TEXT,
+    city TEXT,
+    urban_area TEXT,
+    type_ownership TEXT,
+    year_atc INTEGER,
+    phone_atc BIGINT,
+    user_owner_atc TEXT
+)
+RETURNS VOID AS $$
+DECLARE
+    urban_area_id BIGINT;
+    type_ownership_id BIGINT;
+BEGIN
+
+    -- Получение id_urban_area
+    SELECT ua.id INTO urban_area_id
+    FROM urban_areas ua
+    JOIN cities c ON ua.id_city = c.id
+    WHERE ua.name = urban_area AND c.name = city;
+
+    IF (urban_area_id IS NULL)
+    THEN
+        RAISE EXCEPTION 'Такого района не существует!';
+    END IF;
+
+    -- Получение id_type_of_ownership
+    SELECT a.id INTO type_ownership_id
+    FROM types_of_ownership a
+    WHERE a.name = type_ownership;
+
+    IF (type_ownership_id IS NULL)
+    THEN
+        RAISE EXCEPTION 'Такого типа собственности не существует!';
+    END IF;
+
+    -- Вставка данных в таблицу atc
+    INSERT INTO atc(name, id_urban_area, id_type_of_ownership, year, phone, user_owner) 
+    VALUES (name_atc, urban_area_id, type_ownership_id, year_atc, phone_atc::phone_domain, user_owner_atc);
 END;
 $$ LANGUAGE plpgsql;
 

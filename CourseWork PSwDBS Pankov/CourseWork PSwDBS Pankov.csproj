@@ -398,7 +398,9 @@
   <ItemGroup>
     <None Include="Generator\Content\ATC\adverbial" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SQL\DataRB\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="SQL\db.sql" />
     <Content Include="SQL\functions.sql" />

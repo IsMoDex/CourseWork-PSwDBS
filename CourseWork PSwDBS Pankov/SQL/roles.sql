@@ -54,6 +54,8 @@ GRANT TRIGGER ON ALL TABLES IN SCHEMA public TO moderator;
 
 REVOKE ALL ON public.users FROM moderator;
 
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO moderator;
+
 GRANT ALL ON TABLE public.cities TO moderator;
 GRANT ALL ON TABLE public.urban_areas TO moderator;
 GRANT ALL ON TABLE public.types_of_ownership TO moderator;
@@ -61,12 +63,19 @@ GRANT ALL ON TABLE public.driving_categories TO moderator;
 GRANT ALL ON TABLE public.cargo TO moderator;
 GRANT ALL ON TABLE public.car_brands TO moderator;
 
-GRANT SELECT (id, id_urban_area, id_type_of_ownership) ON TABLE public.atc TO moderator;
-GRANT SELECT (id, id_owning_atc, id_driving_category) ON TABLE public.drivers TO moderator;
-GRANT SELECT (id, id_owning_atc, id_car_brand) ON TABLE public.cars TO moderator;
-GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation_table TO moderator;
+GRANT ALL ON TABLE public.users TO moderator;
+GRANT ALL ON TABLE public.atc TO moderator;
 
-GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation TO moderator;
+ALTER ROLE moderator WITH CREATEROLE CREATEDB;
+
+-- GRANT SELECT (id, id_urban_area, id_type_of_ownership) ON TABLE public.atc TO moderator;
+-- GRANT SELECT (id, id_owning_atc, id_driving_category) ON TABLE public.drivers TO moderator;
+-- GRANT SELECT (id, id_owning_atc, id_car_brand) ON TABLE public.cars TO moderator;
+-- GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation_table TO moderator;
+
+-- GRANT SELECT (id, id_cargo, id_city_departure, id_city_arrival, id_car, id_driver) ON TABLE public.transportation TO moderator;
+
+
 
 
 CREATE ROLE analyst;

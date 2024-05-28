@@ -19,6 +19,10 @@ BEGIN
     --     RAISE EXCEPTION 'Вы не являйтесь владельцем текущей АТС!';
     -- END IF;
 
+    IF NOT pg_has_role(NEW.user_owner, 'owner_atc', 'MEMBER') THEN
+        RAISE EXCEPTION 'У заданного владельца АТС нет допустимых прав на владение АТС!';
+    END IF;
+
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

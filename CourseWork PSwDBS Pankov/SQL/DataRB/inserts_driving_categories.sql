@@ -1,0 +1,16 @@
+INSERT INTO public.driving_categories (name) VALUES ('A');
+INSERT INTO public.driving_categories (name) VALUES ('A1');
+INSERT INTO public.driving_categories (name) VALUES ('B');
+INSERT INTO public.driving_categories (name) VALUES ('B1');
+INSERT INTO public.driving_categories (name) VALUES ('BE');
+INSERT INTO public.driving_categories (name) VALUES ('C');
+INSERT INTO public.driving_categories (name) VALUES ('C1');
+INSERT INTO public.driving_categories (name) VALUES ('CE');
+INSERT INTO public.driving_categories (name) VALUES ('C1E');
+INSERT INTO public.driving_categories (name) VALUES ('D');
+INSERT INTO public.driving_categories (name) VALUES ('D1');
+INSERT INTO public.driving_categories (name) VALUES ('DE');
+INSERT INTO public.driving_categories (name) VALUES ('D1E');
+INSERT INTO public.driving_categories (name) VALUES ('M');
+INSERT INTO public.driving_categories (name) VALUES ('Tb');
+INSERT INTO public.driving_categories (name) VALUES ('Tm');

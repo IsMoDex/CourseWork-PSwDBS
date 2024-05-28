@@ -25,7 +25,10 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
             }
         }
 
-        public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName)
+        public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName) 
+            => SetContentByListDictionary(comboBox, listDictionaries, ContentName, "ID");
+
+        public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName, string TagName)
         {
             if (comboBox.Items.Count > 0)
                 comboBox.Items.Clear();
@@ -34,7 +37,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
             {
                 var item = new ComboBoxItem()
                 {
-                    Tag = dictionary["ID"],
+                    Tag = dictionary[TagName],
                     Content = dictionary[ContentName]
                 };
 

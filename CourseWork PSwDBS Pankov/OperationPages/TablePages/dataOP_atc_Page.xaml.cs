@@ -43,8 +43,13 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
                 var city = (City_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var area = (UrbanArea_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var typeOwner = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
+                var owner_atc = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
 
-                dbContext.SendRequest($"SELECT insert_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}')");
+                if (dbContext.CheckRoleUser(DbContext_Npgsql.Roles.Moderator))
+                    dbContext.SendRequest($"SELECT insert_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}', '{owner_atc}')");
+                else
+                    dbContext.SendRequest($"SELECT insert_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}')");
+
                 MessageBox.Show("Предприятие было успешно добавлено!", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -60,8 +65,13 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
                 var city = (City_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var area = (UrbanArea_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var typeOwner = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
+                var owner_atc = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
 
-                dbContext.SendRequest($"SELECT update_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}')");
+                if (dbContext.CheckRoleUser(DbContext_Npgsql.Roles.Moderator))
+                    dbContext.SendRequest($"SELECT update_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}', '{owner_atc}')");
+                else
+                    dbContext.SendRequest($"SELECT update_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}')");
+
                 MessageBox.Show("Информация о предприятии была успешно обновлена!", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -78,6 +88,14 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
             ComponentOperator_ForPages.SetContentByListDictionary(City_ComboBox, cities, "Город");
             ComponentOperator_ForPages.SetContentByListDictionary(TypeOwner_ComboBox, typesOwner, "Тип собственности");
 
+            if (dbContext.CheckRoleUser(DbContext_Npgsql.Roles.Moderator))
+            {
+                Owners_ComboBox.Visibility = Visibility.Visible;
+                Owners_Label.Visibility = Visibility.Visible;
+                var owners = dbContext.ReadDictionaryFromDatabaseBySQL($"SELECT * FROM get_free_atc_owners(1500);");
+                ComponentOperator_ForPages.SetContentByListDictionary(Owners_ComboBox, owners, "login", "login");
+            }
+
             if (id != -1)
             {
                 Dictionary<string, object> atc = dbContext.ReadFirstDictionaryRecordFromDatabaseBySQL($"SELECT * FROM get_atc_info() WHERE \"ID\" = {id};");
@@ -86,6 +104,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
                 var cityName = Convert.ToString(atc["Город"]);
                 var urban_area = Convert.ToString(atc["Район"]);
                 var typeOwner = Convert.ToString(atc["Тип собственности"]);
+                var owner = atc["Владелец"].ToString();
 
                 StartYear_TextBox.Text = Convert.ToString(atc["Год открытия"]);
                 Phone_TextBox.Text = Convert.ToString(atc["Телефон"]);
@@ -93,6 +112,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
                 ComponentOperator_ForPages.SetSelectedItemByContent(City_ComboBox, cityName);
                 ComponentOperator_ForPages.SetSelectedItemByContent(UrbanArea_ComboBox, urban_area);
                 ComponentOperator_ForPages.SetSelectedItemByContent(TypeOwner_ComboBox, typeOwner);
+                ComponentOperator_ForPages.SetSelectedItemByContent(Owners_ComboBox, owner);
             }
         }
 

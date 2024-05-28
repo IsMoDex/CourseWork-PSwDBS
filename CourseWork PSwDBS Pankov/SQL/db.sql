@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS public.atc
     id_type_of_ownership integer NOT NULL,
     year integer NOT NULL, --CHECK (year <= EXTRACT(YEAR FROM CURRENT_DATE)),
     phone phone_domain NOT NULL UNIQUE,
-    user_owner text NOT NULL DEFAULT CURRENT_USER 
+    user_owner text NOT NULL DEFAULT CURRENT_USER UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS public.driving_categories
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS public.cargo
 CREATE TABLE IF NOT EXISTS public.car_brands
 (
     id bigserial PRIMARY KEY,
-    name text NOT NULL UNIQUE,
+    name text NOT NULL,
     load_capacity integer NOT NULL,
     fuel_consumption integer NOT NULL
 );

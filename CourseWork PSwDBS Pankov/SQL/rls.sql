@@ -26,6 +26,23 @@ FOR DELETE
 TO owner_atc
 USING (user_owner = CURRENT_USER);
 
+-- moderator -> atc
+
+CREATE POLICY restrict_insert_atc_access_for_moderator ON public.atc
+FOR INSERT
+TO moderator
+WITH CHECK (true);
+
+CREATE POLICY restrict_update_atc_access_for_moderator ON public.atc
+FOR UPDATE
+TO moderator
+USING (true);
+
+CREATE POLICY restrict_delete_atc_access_for_moderator ON public.atc
+FOR DELETE
+TO moderator
+USING (true);
+
 -- Создаем политики безопасности для таблицы drivers
 CREATE POLICY restrict_select_driver_access ON public.drivers
 FOR SELECT

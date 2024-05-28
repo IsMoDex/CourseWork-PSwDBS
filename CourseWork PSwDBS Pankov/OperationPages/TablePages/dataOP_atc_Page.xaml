@@ -23,6 +23,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Content="Название АТП:"/>
@@ -42,6 +44,10 @@
 
         <Label Grid.Row="10" Content="Телефон:"/>
         <TextBox x:Name="Phone_TextBox" Grid.Row="11"/>
+
+        <Label Grid.Row="12" x:Name="Owners_Label" Content="Владелец:" Visibility="Collapsed"/>
+        <ComboBox Grid.Row="13" x:Name="Owners_ComboBox" Visibility="Collapsed"/>
+
 
     </Grid>
 </Page>
