@@ -1,11 +1,8 @@
 ﻿using CourseWork_PSwDBS_Pankov.DB;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,7 +22,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
             }
         }
 
-        public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName) 
+        public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName)
             => SetContentByListDictionary(comboBox, listDictionaries, ContentName, "ID");
 
         public static void SetContentByListDictionary(ComboBox comboBox, List<Dictionary<string, object>> listDictionaries, string ContentName, string TagName)

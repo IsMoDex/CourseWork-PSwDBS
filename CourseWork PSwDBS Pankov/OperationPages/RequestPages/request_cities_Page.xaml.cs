@@ -1,20 +1,7 @@
 ﻿using CourseWork_PSwDBS_Pankov.DB;
-using CourseWork_PSwDBS_Pankov.OperationPages.TablePages;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CourseWork_PSwDBS_Pankov.OperationPages.RequestPages
 {
@@ -40,7 +27,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.RequestPages
             //ComponentOperator_ForPages.SetContentDataGridByDataTable(CitiesWithNoUA_DataGrid, get_cities_without_urban_areas);
 
             UAPerCity_Frame.Navigate(new DB_Content_Page("count_urban_areas_per_city()"));
-            CitiesWithUA_Frame.Navigate(new DB_Content_Page("get_cities_with_urban_areas()")); 
+            CitiesWithUA_Frame.Navigate(new DB_Content_Page("get_cities_with_urban_areas()"));
             CitiesWithNoUA_Frame.Navigate(new DB_Content_Page("get_cities_without_urban_areas()"));
             SumCargoWeightPerCity_Frame.Navigate(new DB_Content_Page("get_sum_cargo_weight_per_city()"));
         }
@@ -55,7 +42,8 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.RequestPages
                 //var dt = dbContext.GetDataTableByTable($"get_cities_with_transportations_between_dates('{startData}', '{endData}')");
                 //ComponentOperator_ForPages.SetContentDataGridByDataTable(CitiesWithTrBeetwenDates_DataGrid, dt);
                 CitiesWithTrBeetwenDates_Frame.Navigate(new DB_Content_Page($"get_cities_with_transportations_between_dates('{startData}', '{endData}')"));
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }

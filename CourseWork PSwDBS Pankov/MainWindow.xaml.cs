@@ -3,32 +3,14 @@ using CourseWork_PSwDBS_Pankov.Generator;
 using CourseWork_PSwDBS_Pankov.OperationPages;
 using CourseWork_PSwDBS_Pankov.OperationPages.RequestPages;
 using CourseWork_PSwDBS_Pankov.OperationPages.TablePages;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Win32;
-using Npgsql;
-using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
 
 namespace CourseWork_PSwDBS_Pankov
 {
@@ -73,9 +55,9 @@ namespace CourseWork_PSwDBS_Pankov
         {
             get
             {
-                return 
-                    SelectedTable == "atc" && 
-                    DbContext.User != "postgres" && 
+                return
+                    SelectedTable == "atc" &&
+                    DbContext.User != "postgres" &&
                     DbContext.ExecuteScalar<bool>("SELECT pg_has_role(CURRENT_USER, 'owner_atc', 'MEMBER')");
             }
         }
@@ -104,7 +86,7 @@ namespace CourseWork_PSwDBS_Pankov
 
         private void AddRecordButton_Click(object sender, RoutedEventArgs e)
         {
-            if(SelectedTable == null)
+            if (SelectedTable == null)
             {
                 MessageBox.Show("Выбирите таблицу перед тем как добавлять в нее записи.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -128,7 +110,7 @@ namespace CourseWork_PSwDBS_Pankov
 
             long ID = dbContentPage.GetIDSelectedRecord();
 
-            if(ID == -1)
+            if (ID == -1)
             {
                 MessageBox.Show("Выбирите запись которую хотите поменять.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
@@ -179,7 +161,8 @@ namespace CourseWork_PSwDBS_Pankov
                     DbContext.SendRequest($"SELECT delete_data_{SelectedTable}('{ID}')");
                     MessageBox.Show($"Было успешно удалено {CountRecordToDelete} записей.", "Оповещение", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -199,7 +182,7 @@ namespace CourseWork_PSwDBS_Pankov
 
         private void LoadData()
         {
-            if(DbContext.User == "postgres")
+            if (DbContext.User == "postgres")
                 OpenGenerator_Button.Visibility = Visibility.Visible;
             else
                 OpenGenerator_Button.Visibility = Visibility.Collapsed;
@@ -224,9 +207,9 @@ namespace CourseWork_PSwDBS_Pankov
 
             SetContentByDataTable(true);
 
-            if(SelectedTable != null)
+            if (SelectedTable != null)
             {
-                if(ForOwner_Atc)
+                if (ForOwner_Atc)
                 {
                     AddRecordButton.IsEnabled = false;
                     ChangeRecordButton.IsEnabled = false;
@@ -247,7 +230,7 @@ namespace CourseWork_PSwDBS_Pankov
 
         private void SetContentByDataTable(bool ForResetColumnsName)
         {
-            if(ForOwner_Atc)
+            if (ForOwner_Atc)
             {
                 long idAtc = DbContext.ExecuteScalar<long>("SELECT id FROM atc");
 
@@ -258,7 +241,7 @@ namespace CourseWork_PSwDBS_Pankov
             else
             {
                 dbContentPage.SetDataGridByTableName($"get_{SelectedTable}_info()");
-                
+
                 //BackButton.IsEnabled = false;
             }
 
@@ -266,7 +249,7 @@ namespace CourseWork_PSwDBS_Pankov
 
             CountRecordsLable.Content = "Записей: " + dbContentPage.CountRecords;
 
-            if(ForResetColumnsName)
+            if (ForResetColumnsName)
             {
                 SetColumnsNameInColumnsComboBox(dbContentPage.Columns);
             }
@@ -280,7 +263,7 @@ namespace CourseWork_PSwDBS_Pankov
 
             foreach (DataColumn column in Columns)
             {
-                if(column.ColumnName != "ID")
+                if (column.ColumnName != "ID")
                 {
                     ColumnsComboBox.Items.Add(new ComboBoxItem()
                     {
@@ -469,7 +452,7 @@ namespace CourseWork_PSwDBS_Pankov
 
         private void OpenGenerator_Button_Click(object sender, RoutedEventArgs e)
         {
-            if(Generator.GeneratorFrom.isOpen == false) new GeneratorFrom().Show();
+            if (Generator.GeneratorFrom.isOpen == false) new GeneratorFrom().Show();
         }
 
         private async void SaveTheReport_Button_Click(object sender, RoutedEventArgs e)

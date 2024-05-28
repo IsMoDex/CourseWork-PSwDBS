@@ -1,23 +1,12 @@
 ﻿using CourseWork_PSwDBS_Pankov.DB;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CourseWork_PSwDBS_Pankov.OperationPages
 {
@@ -256,7 +245,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
             //    dt = dbContext.GetDataTableBySQL($"SELECT * FROM {SelectedTable} ORDER BY \"{OrderByColumn}\" {order_by} OFFSET {CurrentList * LimitRecords} LIMIT {LimitRecords};");
             //}
 
-            if(DataSelection.IsCorrectness)
+            if (DataSelection.IsCorrectness)
             {
                 if (DataSelection.ValueBySearch != null)
                 {
@@ -298,7 +287,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
                 DataSelection.sort = ListSortDirection.Ascending;
                 DataSelection.OrderByColumn = e.Column.Header.ToString();
             }
-            else if(DataSelection.sort == ListSortDirection.Ascending)
+            else if (DataSelection.sort == ListSortDirection.Ascending)
             {
                 DataSelection.sort = ListSortDirection.Descending;
                 DataSelection.OrderByColumn = e.Column.Header.ToString();
@@ -358,7 +347,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages
 
         private void Page_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Escape && Db_DataGrid.SelectedItem != null)
+            if (e.Key == Key.Escape && Db_DataGrid.SelectedItem != null)
             {
                 Db_DataGrid.SelectedItem = null;
             }

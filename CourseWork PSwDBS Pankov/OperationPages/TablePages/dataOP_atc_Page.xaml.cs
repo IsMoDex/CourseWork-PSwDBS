@@ -43,7 +43,7 @@ namespace CourseWork_PSwDBS_Pankov.OperationPages.TablePages
                 var city = (City_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var area = (UrbanArea_ComboBox.SelectedItem as ComboBoxItem)?.Content;
                 var typeOwner = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
-                var owner_atc = (TypeOwner_ComboBox.SelectedItem as ComboBoxItem)?.Content;
+                var owner_atc = (Owners_ComboBox.SelectedItem as ComboBoxItem)?.Content;
 
                 if (dbContext.CheckRoleUser(DbContext_Npgsql.Roles.Moderator))
                     dbContext.SendRequest($"SELECT insert_data_atc('{NameATC_TextBox.Text}', '{city}', '{area}', '{typeOwner}', '{StartYear_TextBox.Text}', '{Phone_TextBox.Text}', '{owner_atc}')");
