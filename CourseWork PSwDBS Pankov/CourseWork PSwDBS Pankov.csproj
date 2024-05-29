@@ -384,10 +384,13 @@
   <ItemGroup>
     <None Include="Generator\Content\ATC\adverbial" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="SQL\DataRB\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="SQL\DataRB\generate_urban_areas.sql" />
+    <Content Include="SQL\DataRB\inserts_cargo.sql" />
+    <Content Include="SQL\DataRB\inserts_car_brands.sql" />
+    <Content Include="SQL\DataRB\inserts_driving_categories.sql" />
+    <Content Include="SQL\DataRB\inserts_types_of_ownership.sql" />
     <Content Include="SQL\db.sql" />
     <Content Include="SQL\functions.sql" />
     <Content Include="SQL\indexes.sql" />
